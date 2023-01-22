@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { Text, View, ScrollView, Alert } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 
 import { HabitDay, day_size } from "../components/HabitDay";
 import { Header } from "../components/Header";
-import Loading from "../components/Loading";
+import { Loading } from "../components/Loading";
 
 import { generateRangeDatesFromYearStart } from "../utils/generate-range-between-dates";
 import { api } from "../lib/axios";
@@ -42,9 +42,11 @@ export function Home() {
     }
   }
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      fetchData();
+    }, [])
+  );
 
   if (loading) {
     return <Loading />;
